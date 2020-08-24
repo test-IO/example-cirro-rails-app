@@ -6,10 +6,29 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+	  <div class="app-container">
+      <ul class="flex">
+        <li class="mr-6">
+          <a class="text-blue-500 hover:text-blue-800" href="#">Active</a>
+        </li>
+        <li class="mr-6">
+          <a class="text-blue-500 hover:text-blue-800" href="#">Link</a>
+        </li>
+        <li class="mr-6">
+          <a class="text-blue-500 hover:text-blue-800" href="#">Link</a>
+        </li>
+        <li class="mr-6">
+          <a class="text-gray-400 cursor-not-allowed" href="#">Disabled</a>
+        </li>
+      </ul>
+      <main class="main-content" role="main">
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>
