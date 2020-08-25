@@ -276,8 +276,8 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
   config.omniauth :cirro,
-                ENV['CIRRO_APP_ID'],
-                ENV['CIRRO_APP_SECRET'],
+                Settings.cirro.app_id,
+                Settings.cirro.app_secret,
                 scope: 'read',
                 strategy_class: OmniAuth::Strategies::Cirro
 

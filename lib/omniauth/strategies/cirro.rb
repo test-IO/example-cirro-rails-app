@@ -4,16 +4,16 @@ module OmniAuth
       option :name, :cirro
 
       option :client_options,
-             site: ENV["CIRRO_APP_URL"],
-             authorize_url: "http://localhost:3000/oauth/authorize"
+             site: Settings.cirro.site,
+             authorize_url: Settings.cirro.authorize_url
 
       uid do
-        raw_info['data']['id']
+        raw_info.dig('data', 'id')
       end
 
       info do
         {
-          email: raw_info['data']['attributes']['worker-document']['email']
+          email: raw_info.dig('data', 'attributes', 'worker-document', 'email')
         }
       end
 
