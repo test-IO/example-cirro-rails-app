@@ -1,0 +1,5 @@
+cirro:
+  site: "https://api.cirro.io"
+  authorize_url: "https://cirro.io/oauth/authorize"
+  app_id: "<%= ENV['CIRRO_APP_ID'] %>"
+  app_secret: "<%= ENV['CIRRO_APP_SECRET'] %>"

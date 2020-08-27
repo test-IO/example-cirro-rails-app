@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ExampleCirroRailsApp</title>
+    <title>Professional linguistic services</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,23 +11,76 @@
   </head>
 
   <body>
-	  <div class="app-container">
-      <ul class="flex">
-        <li class="mr-6">
-          <a class="text-blue-500 hover:text-blue-800" href="#">Active</a>
-        </li>
-        <li class="mr-6">
-          <a class="text-blue-500 hover:text-blue-800" href="#">Link</a>
-        </li>
-        <li class="mr-6">
-          <a class="text-blue-500 hover:text-blue-800" href="#">Link</a>
-        </li>
-        <li class="mr-6">
-          <a class="text-gray-400 cursor-not-allowed" href="#">Disabled</a>
-        </li>
-      </ul>
-      <main class="main-content" role="main">
-        <%= yield %>
+    <div>
+      <div class="bg-red-800 pb-32">
+        <nav class="bg-red-800">
+          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="border-b border-red-700">
+              <div class="flex items-center justify-between h-16 px-4 sm:px-0">
+                <div class="flex items-center">
+                  <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                      <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-red-900 focus:outline-none focus:text-white focus:bg-red-700">Dashboard</a>
+
+                      <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-red-700 focus:outline-none focus:text-white focus:bg-red-700">Current Gigs</a>
+
+                      <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-red-700 focus:outline-none focus:text-white focus:bg-red-700">Past Gigs</a>
+
+                      <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-red-700 focus:outline-none focus:text-white focus:bg-red-700">My Profile</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="hidden md:block">
+                  <div class="ml-4 flex items-center md:ml-6">
+                    <!-- Profile dropdown -->
+                    <div class="ml-3 relative" data-controller="toggle">
+                      <div>
+                        <button class="max-w-xs flex items-center text-sm rounded-full text-white focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true" data-action="click->toggle#toggle">
+                          <%= image_tag avatar_url_for(current_user), class: "rounded-full h-8 w-8" %>
+                        </button>
+                      </div>
+                      <!--
+                        Profile dropdown panel, show/hide based on dropdown state.
+
+                        Entering: "transition ease-out duration-100"
+                          From: "transform opacity-0 scale-95"
+                          To: "transform opacity-100 scale-100"
+                        Leaving: "transition ease-in duration-75"
+                          From: "transform opacity-100 scale-100"
+                          To: "transform opacity-0 scale-95"
+                      -->
+                      <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg hidden" data-target="toggle.toggleable">
+                        <div class="py-1 rounded-md bg-white shadow-xs">
+                          <a href="#" class="block px-4 py-2 text-sm text-black hover:bg-red-100">Visit Cirro</a>
+                          <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'block px-4 py-2 text-sm text-black hover:bg-red-100' %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <header class="py-10">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl leading-9 font-bold text-white">
+              Dashboard
+            </h1>
+          </div>
+        </header>
+      </div>
+
+      <main class="-mt-32">
+        <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
+          <!-- Replace with your content -->
+          <div class="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+            <div class="border-4 border-dashed border-red-200 rounded-lg h-96">
+              <%= yield %>
+            </div>
+          </div>
+          <!-- /End replace -->
+        </div>
       </main>
     </div>
   </body>
