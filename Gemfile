@@ -32,6 +32,8 @@ gem 'devise'
 
 gem 'omniauth-oauth2'
 
+gem 'json_api_client'
+
 gem 'config'
 
 group :development, :test do
