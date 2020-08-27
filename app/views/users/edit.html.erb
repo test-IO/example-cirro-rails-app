@@ -1,0 +1,113 @@
+<div class="mt-6 bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+  <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="md:col-span-1">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Your Expertise & Skill sets</h3>
+      <p class="mt-1 text-sm leading-5 text-gray-500">
+        Describe your language and business domain skills.
+      </p>
+    </div>
+    <div class="mt-5 md:mt-0 md:col-span-2">
+      <%= form_for @user do |form| %>
+        <fieldset>
+          <legend class="text-base leading-6 font-medium text-gray-900">Languages</legend>
+          <div class="mt-4">
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= form.check_box(:languages, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "english") %>
+              </div>
+              <div class="ml-3 text-sm leading-5">
+                <label for="english" class="font-medium text-gray-700">English</label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.check_box(:languages, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "german") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <label for="german" class="font-medium text-gray-700">German</label>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.check_box(:languages, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "russian") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <label for="russian" class="font-medium text-gray-700">Russian</label>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.check_box(:languages, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "french") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <label for="french" class="font-medium text-gray-700">French</label>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.check_box(:languages, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "arabic") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <label for="arabic" class="font-medium text-gray-700">Arabic</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="mt-6">
+          <legend class="text-base leading-6 font-medium text-gray-900">Domains</legend>
+          <div class="mt-4">
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= form.check_box(:domains, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "politics") %>
+              </div>
+              <div class="ml-3 text-sm leading-5">
+                <label for="politics" class="font-medium text-gray-700">Politics</label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.check_box(:domains, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "economics") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <label for="economics" class="font-medium text-gray-700">Economics</label>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.check_box(:domains, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "engineering") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <label for="engineering" class="font-medium text-gray-700">Engineering</label>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.check_box(:domains, { multiple: true, class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" }, "media") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <label for="media" class="font-medium text-gray-700">Media & Entertainment</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          <%= form.submit "Update", class: "py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 shadow-sm hover:bg-red-500 focus:outline-none focus:shadow-outline-blue focus:bg-red-500 active:bg-red-600 transition duration-150 ease-in-out" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

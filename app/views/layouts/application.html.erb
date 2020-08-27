@@ -26,7 +26,8 @@
 
                       <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-red-700 focus:outline-none focus:text-white focus:bg-red-700">Past Gigs</a>
 
-                      <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-red-700 focus:outline-none focus:text-white focus:bg-red-700">My Profile</a>
+                      <%= link_to 'My Profile', edit_user_path(current_user.id), class: 'px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-red-700 focus:outline-none focus:text-white focus:bg-red-7' %>
+
                     </div>
                   </div>
                 </div>
@@ -65,7 +66,7 @@
         <header class="py-10">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl leading-9 font-bold text-white">
-              Dashboard
+              <%= @page_heading %>
             </h1>
           </div>
         </header>
