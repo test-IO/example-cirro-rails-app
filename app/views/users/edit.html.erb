@@ -1,0 +1,47 @@
+<div class="mt-6 bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+  <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="md:col-span-1">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Your Expertise & Skill sets</h3>
+      <p class="mt-1 text-sm leading-5 text-gray-500">
+        Describe your language and business domain skills.
+      </p>
+    </div>
+    <div class="mt-5 md:mt-0 md:col-span-2">
+      <%= form_for @user do |form| %>
+        <fieldset>
+          <legend class="text-base leading-6 font-medium text-gray-900">Languages</legend>
+          <%= form.collection_check_boxes(:languages, [['english', 'English'], ['german', 'German'], ['russian', 'Russian'], ['french', 'French'], ['arabic', 'Arabic']], :first, :last) do |builder| %>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= builder.check_box(class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <%= builder.label(class: "font-medium text-gray-700 mb-0") %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </fieldset>
+        <fieldset class="mt-6">
+          <legend class="text-base leading-6 font-medium text-gray-900">Domains</legend>
+          <%= form.collection_check_boxes(:domains, [['politics', 'Politics'], ['economics', 'Economics'], ['engineering', 'Engineering'], ['media', 'Media & Entertainment']], :first, :last) do |builder| %>
+            <div class="mt-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= builder.check_box(class: "form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out") %>
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                  <%= builder.label(class: "font-medium text-gray-700 mb-0") %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </fieldset>
+        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          <%= form.submit "Update", class: "py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 shadow-sm hover:bg-red-500 focus:outline-none focus:shadow-outline-blue focus:bg-red-500 active:bg-red-600 transition duration-150 ease-in-out" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

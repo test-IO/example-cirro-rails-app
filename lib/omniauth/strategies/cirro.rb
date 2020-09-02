@@ -18,7 +18,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= JSON.parse(access_token.get("/v1/app-workers/1.json").body)
+        @raw_info ||= JSON.parse(access_token.get("/v1/app-workers/me.json").body)
       end
     end
   end
