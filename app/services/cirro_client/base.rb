@@ -2,7 +2,7 @@ module CirroClient
   # this is an "abstract" base class that
   class Base < JsonApiClient::Resource
     # set the api base url in an abstract base class
-    self.site = "http://api.app.localhost:3000/v1/"
+    self.site = "#{Settings.cirro.site}/#{Settings.cirro.api_version}"
   end
 
   class AppWorker < Base

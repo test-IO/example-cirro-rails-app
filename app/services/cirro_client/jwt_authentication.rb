@@ -11,7 +11,7 @@ module CirroClient
         # JWT expiration time (10 minute maximum)
         exp: Time.now.to_i + (10 * 60),
         # App client id
-        iss: 'WULnc6Y0rlaTBCSiHAb0kGWKFuIxPWBXJysyZeG3Rtw'
+        iss: Settings.cirro.app_client_id
       }
 
       token = JWT.encode(payload, private_key, 'RS256')
