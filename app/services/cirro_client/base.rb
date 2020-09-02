@@ -4,9 +4,6 @@ module CirroClient
     # set the api base url in an abstract base class
     self.site = "#{Settings.cirro.site}/#{Settings.cirro.api_version}"
   end
-
-  class AppWorker < Base
-  end
 end
 
 CirroClient::Base.connection do |connection|
