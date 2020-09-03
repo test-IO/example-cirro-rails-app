@@ -4,7 +4,7 @@ require 'openssl'
 module CirroClient
   class JwtAuthentication < Faraday::Middleware
     def call(env)
-      path = Rails.env.development? './key.pem' : './storage/cirro.pem'
+      path = Rails.env.development? ? './key.pem' : './storage/cirro.pem'
       private_pem = File.read(path)
       private_key = OpenSSL::PKey::RSA.new(private_pem)
 
