@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin | Professional linguistic services</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div>
+      <div class="bg-green-800 pb-32">
+        <nav class="bg-green-800">
+          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="border-b border-green-700">
+              <div class="flex items-center justify-between h-16 px-4 sm:px-0">
+              </div>
+            </div>
+          </div>
+        </nav>
+        <header class="py-10">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl leading-9 font-bold text-white">
+              <%= @page_heading %>
+            </h1>
+          </div>
+        </header>
+      </div>
+
+      <main class="-mt-32">
+        <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
+          <!-- Replace with your content -->
+          <div class="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+            <div class="border-4 border-dashed border-green-200 rounded-lg h-96">
+              <%= yield %>
+            </div>
+          </div>
+          <!-- /End replace -->
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -14,4 +14,8 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   resources :users, only: [:edit, :update]
+
+  scope module: 'admin', path: '/admin' do
+    resources :translation_assignments, only: [:new, :create, :show]
+  end
 end
