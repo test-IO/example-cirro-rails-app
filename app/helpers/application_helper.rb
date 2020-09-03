@@ -6,10 +6,10 @@ module ApplicationHelper
   end
 
   def domains_collection
-    [['politics', 'Politics'], ['economics', 'Economics'], ['engineering', 'Engineering'], ['media', 'Media & Entertainment']]
+    [['Politics', 'politics'], ['Economics', 'economics'], ['Engineering', 'engineering'], ['Media & Entertainment', 'media']]
   end
 
   def languages_collection
-    [['english', 'English'], ['german', 'German'], ['russian', 'Russian'], ['french', 'French'], ['arabic', 'Arabic']]
+    [['English', 'english'], ['German', 'german'], ['Russian', 'russian'], ['French', 'french'], ['Arabic', 'arabic']]
   end
 end
