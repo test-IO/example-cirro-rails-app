@@ -1,6 +1,6 @@
 cirro:
-  site: "https://api.cirro.io"
-  authorize_url: "https://cirro.io/oauth/authorize"
+  site: "https://api.staging.cirro.io"
+  authorize_url: "https://staging.cirro.io/oauth/authorize"
   app_id: "<%= ENV['CIRRO_APP_ID'] %>"
   app_secret: "<%= ENV['CIRRO_APP_SECRET'] %>"
   app_client_id: "<%= ENV['CIRRO_APP_CLIENT_ID'] %>"
