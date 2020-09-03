@@ -13,7 +13,7 @@ class TranslationAssignment < ApplicationRecord
 
   def create_gig
     filter = CirroClient::WorkerInvitationFilter.new
-    filter['filter-query'] = "{ \"languages\": { \"$in\": [\"#{from_language}\", \"#{to_language}\"] }, \"domains\": { \"$in\": [\"#{domain}\"] } }"
+    filter['filter-query'] = %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } })
     filter.save
 
     gig = CirroClient::Gig.new
