@@ -10,7 +10,7 @@
       <%= form_for @user do |form| %>
         <fieldset>
           <legend class="text-base leading-6 font-medium text-gray-900">Languages</legend>
-          <%= form.collection_check_boxes(:languages, [['english', 'English'], ['german', 'German'], ['russian', 'Russian'], ['french', 'French'], ['arabic', 'Arabic']], :first, :last) do |builder| %>
+          <%= form.collection_check_boxes(:languages, languages_collection, :last, :first) do |builder| %>
             <div class="mt-4">
               <div class="flex items-start">
                 <div class="flex items-center h-5">
@@ -25,7 +25,7 @@
         </fieldset>
         <fieldset class="mt-6">
           <legend class="text-base leading-6 font-medium text-gray-900">Domains</legend>
-          <%= form.collection_check_boxes(:domains, [['politics', 'Politics'], ['economics', 'Economics'], ['engineering', 'Engineering'], ['media', 'Media & Entertainment']], :first, :last) do |builder| %>
+          <%= form.collection_check_boxes(:domains, domains_collection, :last, :first) do |builder| %>
             <div class="mt-4">
               <div class="flex items-start">
                 <div class="flex items-center h-5">
