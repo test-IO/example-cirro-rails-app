@@ -30,6 +30,7 @@
 
 /public/packs
 /public/packs-test
+/public/storage
 /node_modules
 /yarn-error.log
 yarn-debug.log*
@@ -40,3 +41,4 @@ config/settings/*.local.yml
 config/environments/*.local.yml
 
 .envrc
+

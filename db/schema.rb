@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_27_170054) do
+ActiveRecord::Schema.define(version: 2020_09_08_095821) do
 
   create_table "translation_assignments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.text "content"
     t.string "domain"
     t.string "from_language"
     t.string "to_language"
@@ -23,6 +22,15 @@ ActiveRecord::Schema.define(version: 2020_08_27_170054) do
     t.datetime "invitation_expiry_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "translation_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "file"
+    t.string "status"
+    t.bigint "translation_assignment_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["translation_assignment_id"], name: "index_translation_files_on_translation_assignment_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

@@ -23,14 +23,6 @@
       </div>
       <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
         <dt class="text-sm leading-5 font-medium text-gray-500">
-          Translation Files
-        </dt>
-        <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-          <%= @assignment.content %>
-        </dd>
-      </div>
-      <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-        <dt class="text-sm leading-5 font-medium text-gray-500">
           Translate from
         </dt>
         <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
@@ -45,21 +37,50 @@
           <%= @assignment.to_language %>
         </dd>
       </div>
-      <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-        <dt class="text-sm leading-5 font-medium text-gray-500">
-          Invitation start time
-        </dt>
-        <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-          <%= @assignment.invitation_start_time.strftime("%-d/%-m/%y: %H:%M %Z") %>
-        </dd>
-      </div>
-      <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-        <dt class="text-sm leading-5 font-medium text-gray-500">
-          Invitation expiry time
-        </dt>
-        <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-          <%= @assignment.invitation_expiry_time.strftime("%-d/%-m/%y: %H:%M %Z") %>
-        </dd>
-      </div>
     </dl>
   </div>
+  <div class="flex flex-col">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                File
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Picked By
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Result
+              </th>
+              <th class="px-6 py-3 bg-gray-50"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @assignment.translation_files.each do |translation_file| %>
+              <tr class="bg-white">
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                  <%= link_to File.basename(translation_file.file.path), translation_file.file.url, class:"text-indigo-600 hover:text-indigo-900" %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                  <%= translation_file.status %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
