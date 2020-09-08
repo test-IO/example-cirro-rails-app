@@ -6,12 +6,12 @@ class Admin::TranslationAssignmentsController < ApplicationController
   def new
     @page_heading = 'New Translation Assignment'
     
-    @assignment = TranslationAssignment.new(invitation_start_time: 2.hours.from_now, invitation_expiry_time: 24.hours.from_now)
+    @assignment = TranslationAssignment.new
     @translation_file = @assignment.translation_files.build
   end
 
   def create
-    @assignment = TranslationAssignment.new(translation_assignment_params)
+    @assignment = TranslationAssignment.new(translation_assignment_params.merge(total_seats: params[:translation_files][:file].length * 3))
     if @assignment.save
       params[:translation_files][:file].each do |file|
         @translation_file = @assignment.translation_files.create(file: file, translation_assignment_id: @assignment.id)
@@ -38,7 +38,6 @@ class Admin::TranslationAssignmentsController < ApplicationController
   def translation_assignment_params
     params.require(:translation_assignment).permit(:title, :description,
                                                    :from_language, :to_language,
-                                                   :domain, :invitation_start_time, :invitation_expiry_time,
-                                                    translation_file_attributes: [:id, :translation_assignment_id, :file])
+                                                   :domain, translation_file_attributes: [:id, :translation_assignment_id, :file])
   end
 end

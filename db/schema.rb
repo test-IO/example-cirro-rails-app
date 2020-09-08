@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_095821) do
+ActiveRecord::Schema.define(version: 2020_09_08_101455) do
 
   create_table "translation_assignments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "title"
@@ -18,8 +18,6 @@ ActiveRecord::Schema.define(version: 2020_09_08_095821) do
     t.string "domain"
     t.string "from_language"
     t.string "to_language"
-    t.datetime "invitation_start_time"
-    t.datetime "invitation_expiry_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
