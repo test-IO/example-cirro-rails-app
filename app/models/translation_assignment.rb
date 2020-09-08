@@ -6,8 +6,8 @@ class TranslationAssignment < ApplicationRecord
   validates :domain, presence: true
   validates :from_language, presence: true
   validates :to_language, presence: true
-  validates :invitation_start_time, presence: true
-  validates :invitation_expiry_time, presence: true
+
+  attr_accessor :total_seats
 
   after_commit :create_gig, on: :create
 
@@ -22,8 +22,8 @@ class TranslationAssignment < ApplicationRecord
     gig.title = title
     gig.description = description
     gig.url = 'http://blah'
-    gig['invitation-start-time'] = invitation_start_time
-    gig['invitation-expiry-time'] = invitation_expiry_time
+    gig['total-seats'] = total_seats
+    gig['automatic-invites'] = true
     gig.relationships['worker-invitation-filter'] = filter
     gig.save
   end
