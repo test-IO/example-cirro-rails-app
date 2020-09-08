@@ -1,6 +1,8 @@
 class TranslationAssignment < ApplicationRecord
+  has_many :translation_files
+  accepts_nested_attributes_for :translation_files
+
   validates :title, presence: true
-  validates :content, presence: true
   validates :domain, presence: true
   validates :from_language, presence: true
   validates :to_language, presence: true

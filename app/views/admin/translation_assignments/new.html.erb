@@ -4,7 +4,7 @@
       <h3 class="text-lg font-medium leading-6 text-gray-900">Describe your requirements</h3>
     </div>
     <div class="mt-5 md:mt-0 md:col-span-2">
-      <%= form_for @assignment do |form| %>
+      <%= form_for @assignment, html: { multipart: true } do |form| %>
         <fieldset>
           <div class="col-span-6 sm:col-span-4">
             <fieldset>
@@ -16,8 +16,12 @@
               <%= form.text_area :description, class: 'mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5', required: true %>
             </fieldset>
             <fieldset>
-              <label for="content" class="block text-sm font-medium leading-5 text-gray-700 mt-6">Content</label>
-              <%= form.text_area :content, class: 'mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5', required: true, placeholder: 'Put all the links of files that needs to be translated' %>
+              <label for="translation_files" class="block text-sm font-medium leading-5 text-gray-700 mt-6">Translation Files</label>
+              <%= form.fields_for :translation_files do |p| %>
+                <div class="field mt-1">
+                  <%= p.file_field :file, :multiple => true, name: "translation_files[file][]" %>
+                </div>
+              <% end %>
             </fieldset>
             <fieldset>
               <label for="from_language" class="block text-sm font-medium leading-5 text-gray-700 mt-6">Translate from</label>
@@ -35,7 +39,7 @@
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
           <%= form.hidden_field :invitation_start_time %>
           <%= form.hidden_field :invitation_expiry_time %>
-          <%= form.submit "Create Assignment", class: "py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 shadow-sm hover:bg-red-500 focus:outline-none focus:shadow-outline-blue focus:bg-red-500 active:bg-red-600 transition duration-150 ease-in-out" %>
+          <%= form.submit "Create Assignment", class: "py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 shadow-sm hover:bg-green-500 focus:outline-none focus:shadow-outline-blue focus:bg-green-500 active:bg-green-600 transition duration-150 ease-in-out" %>
         </div>
       <% end %>
     </div>
