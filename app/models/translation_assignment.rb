@@ -26,5 +26,7 @@ class TranslationAssignment < ApplicationRecord
     gig['automatic-invites'] = true
     gig.relationships['worker-invitation-filter'] = filter
     gig.save
+
+    update_attribute(:gig_idx, gig.id)
   end
 end
