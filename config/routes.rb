@@ -11,11 +11,12 @@ Rails.application.routes.draw do
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root to: "home#index"
+  root to: "translation_assignments#index"
 
   resources :users, only: [:edit, :update]
+  resources :translation_assignments, only: [:show, :index]
 
-  scope module: 'admin', path: '/admin' do
+  scope module: 'admin', path: '/admin', as: 'admin' do
     resources :translation_assignments, only: [:new, :create, :show, :index]
   end
 end

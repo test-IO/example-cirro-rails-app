@@ -17,7 +17,7 @@ class Admin::TranslationAssignmentsController < ApplicationController
         @translation_file = @assignment.translation_files.create(file: file, translation_assignment_id: @assignment.id)
       end
       flash[:success] = 'Success'
-      redirect_to translation_assignment_path(@assignment)
+      redirect_to admin_translation_assignment_path(@assignment)
     else
       flash[:error] = 'There was an error'
       render :new

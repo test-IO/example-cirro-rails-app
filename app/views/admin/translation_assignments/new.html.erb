@@ -4,7 +4,7 @@
       <h3 class="text-lg font-medium leading-6 text-gray-900">Describe your requirements</h3>
     </div>
     <div class="mt-5 md:mt-0 md:col-span-2">
-      <%= form_for @assignment, html: { multipart: true } do |form| %>
+      <%= form_for @assignment, url: admin_translation_assignments_path, html: { multipart: true } do |form| %>
         <fieldset>
           <div class="col-span-6 sm:col-span-4">
             <fieldset>

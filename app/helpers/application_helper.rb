@@ -12,4 +12,11 @@ module ApplicationHelper
   def languages_collection
     [['English', 'english'], ['German', 'german'], ['Russian', 'russian'], ['French', 'french'], ['Arabic', 'arabic']]
   end
+
+  def human_readable_translation_file_status(status)
+    case status
+    when 'available'
+      'Ready to pick'
+    end
+  end
 end
