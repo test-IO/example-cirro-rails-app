@@ -28,6 +28,11 @@ class Admin::TranslationAssignmentsController < ApplicationController
     @assignment = TranslationAssignment.find(params[:id])
   end
 
+  def index
+    @page_heading = 'All Assignments'
+    @assignments = TranslationAssignment.all.order(created_at: :desc)
+  end
+
   private
 
   def translation_assignment_params
