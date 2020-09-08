@@ -16,6 +16,6 @@ Rails.application.routes.draw do
   resources :users, only: [:edit, :update]
 
   scope module: 'admin', path: '/admin' do
-    resources :translation_assignments, only: [:new, :create, :show]
+    resources :translation_assignments, only: [:new, :create, :show, :index]
   end
 end
