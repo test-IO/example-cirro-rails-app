@@ -4,3 +4,4 @@ cirro:
   app_id: "<%= ENV['CIRRO_APP_ID'] %>"
   app_secret: "<%= ENV['CIRRO_APP_SECRET'] %>"
   api_version: "v1"
+host: https://example.cirro.io
