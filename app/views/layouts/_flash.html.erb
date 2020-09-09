@@ -1,0 +1,17 @@
+<% if flash[:notice] %>
+  <div class="<%= "alert-message flex items-center bg-blue-900 text-white text-sm justify-center font-bold px-4 py-3" %>" role="alert">
+    <p><%= flash[:notice] %></p>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="<%= "alert-message flex items-center bg-orange-900 text-white justify-center text-sm font-bold px-4 py-3" %>" role="alert">
+    <p><%= flash[:alert] %></p>
+  </div>
+<% end %>
+
+<% if flash[:error] %>
+  <div class="<%= "alert-message flex items-center bg-red-900 text-white text-sm justify-center font-bold px-4 py-3" %>" role="alert">
+    <p><%= flash[:error] %></p>
+  </div>
+<% end %>
