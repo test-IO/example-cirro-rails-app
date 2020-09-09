@@ -1,3 +1,4 @@
 cirro:
   site: "http://api.app.localhost:3000"
   authorize_url: "http://localhost:3000/oauth/authorize"
+host: http://localhost:3001

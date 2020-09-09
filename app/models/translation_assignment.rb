@@ -21,7 +21,7 @@ class TranslationAssignment < ApplicationRecord
     gig = CirroClient::Gig.new
     gig.title = title
     gig.description = description
-    gig.url = 'http://blah'
+    gig.url = Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host)
     gig['total-seats'] = total_seats
     gig['automatic-invites'] = true
     gig.relationships['worker-invitation-filter'] = filter
