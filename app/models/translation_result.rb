@@ -7,7 +7,7 @@ class TranslationResult < ApplicationRecord
   validates :status, :started_at, presence: true
 
   state_machine :status, initial: :started do
-    before_transition started: :submittes do |translation_result, _|
+    before_transition started: :submitted do |translation_result, _|
       translation_result.submitted_at = Time.current
     end
 
