@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   serialize :languages
   serialize :domains
+
+  has_many :translation_results
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

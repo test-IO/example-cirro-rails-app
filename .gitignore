@@ -43,3 +43,7 @@ config/environments/*.local.yml
 .envrc
 *.pem
 
+# Ignore vim artefacts
+**.swp
+**.swn
+**.swo
