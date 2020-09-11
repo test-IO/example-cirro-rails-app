@@ -17,6 +17,10 @@ module ApplicationHelper
     case status
     when 'available'
       'Ready to pick'
+    when 'in_progress'
+      'In progress'
+    when 'waiting_for_review'
+      'Waiting for Review'
     end
   end
 end

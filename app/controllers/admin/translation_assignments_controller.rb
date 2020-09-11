@@ -5,7 +5,7 @@ class Admin::TranslationAssignmentsController < ApplicationController
 
   def new
     @page_heading = 'New Translation Assignment'
-    
+
     @assignment = TranslationAssignment.new
     @translation_file = @assignment.translation_files.build
   end
