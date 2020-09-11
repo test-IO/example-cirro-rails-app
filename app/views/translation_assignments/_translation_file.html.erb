@@ -19,6 +19,7 @@
   <% when 'in_progress' %>
     <% if translation_file.translation_result.user_id == current_user.id %>
       <% translation_result = translation_file.translation_result %>
+      <span class="text-xs text-gray-700 mr-2" data-controller="clock" data-target="clock.time" data-clock-started-at="<%= translation_result.started_at.to_i %>"></span>
       <%= form_with model: translation_result,
                     url: translation_result_path(translation_result),
                     html: { multipart: true, class: "flex items-center justify-end", data: { controller: "file-input" } } do |form| %>
