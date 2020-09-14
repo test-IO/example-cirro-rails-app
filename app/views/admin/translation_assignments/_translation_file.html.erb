@@ -1,0 +1,65 @@
+<% translation_result = translation_file.translation_result %>
+<% view = translation_result.present? ? translation_result.status : 'no_result' %>
+<tr id="translation_file_<%= translation_file.id %>" class="bg-white">
+  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+    <%= link_to File.basename(translation_file.file.path), translation_file.file.url, class:"text-indigo-600 hover:text-indigo-900" %>
+  </td>
+  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+      <%= human_readable_translation_file_status(translation_file.status) %>
+    </span>
+  </td>
+
+  <% case view %>
+  <% when 'started' %>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+      <%= translation_result.user.email %>
+    </td>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    </td>
+    <td class="px-6 py-4 flex items-center justify-end">
+    </td>
+  <% when 'submitted' %>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+      <%= translation_result.user.email %>
+    </td>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+      <%= link_to File.basename(translation_result.file.path), translation_result.file.url, class:"text-indigo-600 hover:text-indigo-900" %>
+    </td>
+    <td class="px-6 py-4 flex items-center justify-end">
+      <%= link_to 'Accept', accept_admin_translation_result_path(translation_result), method: :patch, remote: true, class: "text-xs bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" %>
+      <%= link_to 'Reject', reject_admin_translation_result_path(translation_result), method: :patch, remote: true, class: "ml-1 text-xs bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" %>
+    </td>
+  <% when 'accepted' %>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+      <%= translation_result.user.email %>
+    </td>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+      <%= link_to File.basename(translation_result.file.path), translation_result.file.url, class:"text-indigo-600 hover:text-indigo-900" %>
+    </td>
+    <td class="px-6 py-4 flex items-center justify-end">
+      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+        accepted
+      </span>
+    </td>
+  <% when 'rejected' %>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+      <%= translation_result.user.email %>
+    </td>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+      <%= link_to File.basename(translation_result.file.path), translation_result.file.url, class:"text-indigo-600 hover:text-indigo-900" %>
+    </td>
+    <td class="px-6 py-4 flex items-center justify-end">
+      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+        rejected
+      </span>
+    </td>
+  <% else %>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    </td>
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    </td>
+    <td class="px-6 py-4 flex items-center justify-end">
+    </td>
+  <% end %>
+</tr>

@@ -1,0 +1,2 @@
+var tr = document.getElementById("translation_file_<%= @translation_result.translation_file_id %>");
+tr.innerHTML = "<%= j render 'admin/translation_assignments/translation_file', translation_file: @translation_result.translation_file  %>";

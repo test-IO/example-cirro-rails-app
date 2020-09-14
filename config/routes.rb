@@ -19,5 +19,11 @@ Rails.application.routes.draw do
 
   scope module: 'admin', path: '/admin', as: 'admin' do
     resources :translation_assignments, only: [:new, :create, :show, :index]
+    resources :translation_results, only: [] do
+      member do
+        patch :accept
+        patch :reject
+      end
+    end
   end
 end

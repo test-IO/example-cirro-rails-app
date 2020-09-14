@@ -13,5 +13,9 @@ class TranslationFile < ApplicationRecord
     event :submit_for_review do
       transition in_progress: :waiting_for_review
     end
+
+    event :review do
+      transition waiting_for_review: :reviewed
+    end
   end
 end
