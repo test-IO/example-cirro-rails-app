@@ -21,6 +21,8 @@ module ApplicationHelper
       'In progress'
     when 'waiting_for_review'
       'Waiting for Review'
+    when 'reviewed'
+      'Reviewed'
     end
   end
 end
