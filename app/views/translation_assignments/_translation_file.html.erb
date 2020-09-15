@@ -6,7 +6,7 @@
     <%= human_readable_translation_file_status(translation_file.status) %>
   </span>
 </td>
-<td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+<td class="px-6 py-4 whitespace-no-wrap text-sm text-right leading-5 font-medium">
   <% case translation_file.status %>
   <% when 'available' %>
     <div class="flex items-center justify-end">
@@ -16,32 +16,29 @@
                   remote: true,
                   class: "text-xs bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full" %>
     </div>
+    <span class="text-xs text-red-500 mr-2"><%= translation_file.errors.full_messages.to_sentence if translation_file.errors.any? %></span>
   <% when 'in_progress' %>
-    <% if translation_file.translation_result.user_id == current_user.id %>
-      <% translation_result = translation_file.translation_result %>
-      <span class="text-xs text-gray-700 mr-2" data-controller="clock" data-target="clock.time" data-clock-started-at="<%= translation_result.started_at.to_i %>"></span>
-      <%= form_with model: translation_result,
-                    url: translation_result_path(translation_result),
-                    html: { multipart: true, class: "flex items-center justify-end", data: { controller: "file-input" } } do |form| %>
-        <span class="text-gray-500 text-sm" data-target="file-input.value"></span>
-        <div class="w-32 ml-2 relative group flex-none">
-          <button class="bg-blue-500 group-hover:bg-blue-700 text-white font-bold py-2 px-4 w-full rounded-full">
-            select file
-          </button>
-          <div class="absolute top-0 left-0 w-full h-full cursor-pointer">
-            <%= form.file_field :file,
-                                class: "opacity-0 w-full h-full",
-                                multiple: true,
-                                data: { target: "file-input.input", action: "file-input#display" } %>
-          </div>
+    <% translation_result = translation_file.translation_result %>
+    <span class="text-xs text-gray-700 mr-2" data-controller="clock" data-target="clock.time" data-clock-started-at="<%= translation_result.started_at.to_i %>"></span>
+    <%= form_with model: translation_result,
+                  url: translation_result_path(translation_result),
+                  html: { multipart: true, class: "flex items-center justify-end", data: { controller: "file-input" } } do |form| %>
+      <span class="text-gray-500 text-sm" data-target="file-input.value"></span>
+      <div class="w-32 ml-2 relative group flex-none">
+        <button class="bg-blue-500 group-hover:bg-blue-700 text-white font-bold py-2 px-4 w-full rounded-full">
+          select file
+        </button>
+        <div class="absolute top-0 left-0 w-full h-full cursor-pointer">
+          <%= form.file_field :file,
+                              class: "opacity-0 w-full h-full",
+                              multiple: true,
+                              data: { target: "file-input.input", action: "file-input#display" } %>
         </div>
-        <%= form.submit 'Submit',
-                        class: "cursor-pointer hidden ml-2 text-xs bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full",
-                        data: { target: "file-input.submit" } %>
-      <% end %>
-
-    <% else %>
-      Taken by another user
+      </div>
+      <%= form.submit 'Submit',
+                      class: "cursor-pointer hidden ml-2 text-xs bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full",
+                      data: { target: "file-input.submit" } %>
     <% end %>
+    <span class="text-xs text-red-500 mr-2"><%= translation_file.errors.full_messages.to_sentence if translation_file.errors.any? %></span>
   <% end %>
 </td>

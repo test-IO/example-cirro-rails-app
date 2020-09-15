@@ -16,7 +16,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @assignment.translation_files.each do |translation_file| %>
+            <% @assignment.translation_files.for_user(current_user).each do |translation_file| %>
               <tr id="translation_file_<%= translation_file.id %>" class="bg-white">
                 <%= render 'translation_file', translation_file: translation_file %>
               </tr>

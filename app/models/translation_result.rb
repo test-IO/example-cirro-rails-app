@@ -6,16 +6,14 @@ class TranslationResult < ApplicationRecord
 
   validates :status, :started_at, presence: true
 
+  scope :started, -> { where(status: 'started') }
+
   state_machine :status, initial: :started do
     before_transition started: :submitted do |translation_result, _|
       translation_result.submitted_at = Time.current
     end
     after_transition submitted: [:accepted, :rejected] do |translation_result, _|
       translation_result.translation_file.review!
-    end
-
-    state :submitted do
-      validate { |translation| translation.file.present? && translation.submitted_at.present? }
     end
 
     event :submit do
@@ -28,6 +26,11 @@ class TranslationResult < ApplicationRecord
 
     event :reject do
       transition submitted: :rejected
+    end
+
+    state :submitted do
+      validates_presence_of :file
+      validates_presence_of :submitted_at
     end
   end
 end

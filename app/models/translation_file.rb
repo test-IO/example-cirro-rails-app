@@ -5,6 +5,10 @@ class TranslationFile < ApplicationRecord
 
   validates :status, presence: true
 
+  scope :for_user, ->(user) {
+    includes(:translation_result).references(:translation_result).where("translation_files.status = 'available' OR translation_results.user_id = ?", user.id)
+  }
+
   state_machine :status, initial: :available do
     event :pick do
       transition available: :in_progress
