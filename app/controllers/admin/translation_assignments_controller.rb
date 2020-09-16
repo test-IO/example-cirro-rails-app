@@ -30,7 +30,14 @@ class Admin::TranslationAssignmentsController < ApplicationController
 
   def index
     @page_heading = 'All Assignments'
-    @assignments = TranslationAssignment.all.order(created_at: :desc)
+    @assignments = TranslationAssignment.all.order(:status, created_at: :desc)
+  end
+
+  def update
+    @assignment = TranslationAssignment.find(params[:id])
+    @assignment.assign_attributes(params.require(:translation_assignment).permit(:status)) if @assignment.archivable?
+    flash[:success] = 'Assignment is archived'
+    redirect_to admin_translation_assignment_path(@assignment)
   end
 
   private

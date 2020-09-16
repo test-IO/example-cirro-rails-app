@@ -11,7 +11,7 @@ class TranslationAssignmentsController < ApplicationController
 
   def index
     @page_heading = 'My Assignments'
-    @assignments = TranslationAssignment.where(gig_idx: @app_worker['gig-ids']).order(created_at: :desc)
+    @assignments = TranslationAssignment.where(gig_idx: @app_worker['gig-ids']).order(:status, created_at: :desc)
   end
 
   private
