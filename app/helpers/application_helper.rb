@@ -13,8 +13,8 @@ module ApplicationHelper
     [['English', 'english'], ['German', 'german'], ['Russian', 'russian'], ['French', 'french'], ['Arabic', 'arabic']]
   end
 
-  def human_readable_translation_file_status(status)
-    case status
+  def human_readable_translation_file_status(translation_file)
+    case translation_file.status
     when 'available'
       'Ready to pick'
     when 'in_progress'
@@ -22,7 +22,9 @@ module ApplicationHelper
     when 'waiting_for_review'
       'Waiting for Review'
     when 'reviewed'
-      'Reviewed'
+      translation_file.translation_result.user_id == current_user.id ? translation_file.translation_result.status.capitalize : 'Reviewed'
+    when 'expired'
+      'Expired'
     end
   end
 end
