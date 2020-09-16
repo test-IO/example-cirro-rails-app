@@ -1,4 +1,7 @@
 <div class="bg-white shadow overflow-hidden sm:rounded-md">
+  <% if @assignments.empty? %>
+    <h1 class="p-10 text-lg text-gray-600">There are no assignments for you at the moment. Check back again soon</h1>
+  <% end %>
   <ul>
     <% @assignments.each do |assignment| %>
     <li>
