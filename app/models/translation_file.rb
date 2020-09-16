@@ -5,6 +5,10 @@ class TranslationFile < ApplicationRecord
 
   validates :status, presence: true
 
+  scope :available, -> { where(status: :available) }
+  scope :in_progress, -> { where(status: :in_progress) }
+  scope :pending_review, -> { where(status: :waiting_for_review) }
+
   state_machine :status, initial: :available do
     event :pick do
       transition available: :in_progress
@@ -16,6 +20,10 @@ class TranslationFile < ApplicationRecord
 
     event :review do
       transition waiting_for_review: :reviewed
+    end
+    
+    event :expire do
+      transition available: :expired
     end
   end
 end

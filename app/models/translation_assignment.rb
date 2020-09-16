@@ -2,14 +2,37 @@ class TranslationAssignment < ApplicationRecord
   has_many :translation_files
   accepts_nested_attributes_for :translation_files
 
+  attr_accessor :total_seats
+
+  after_commit :create_gig, on: :create
+
   validates :title, presence: true
   validates :domain, presence: true
   validates :from_language, presence: true
   validates :to_language, presence: true
+  validates :status, presence: true
 
-  attr_accessor :total_seats
+  state_machine :status, initial: :active do
+    after_transition active: :archived do |assignment, _|
+      assignment.translation_files.available.map(&:expire)
+    end
 
-  after_commit :create_gig, on: :create
+    state :archived do
+      validate { |assignment| assignment.archivable? }
+    end
+
+    event :archive do
+      transition active: :archived
+    end
+  end
+
+  def archivable?
+    translation_files.in_progress.empty? && translation_files.pending_review.empty?
+  end
+
+  def title_with_id
+    "##{id} #{title}"
+  end
 
   private
 
