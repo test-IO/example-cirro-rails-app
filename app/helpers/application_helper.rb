@@ -13,8 +13,8 @@ module ApplicationHelper
     [['English', 'english'], ['German', 'german'], ['Russian', 'russian'], ['French', 'french'], ['Arabic', 'arabic']]
   end
 
-  def human_readable_translation_file_status(status)
-    case status
+  def human_readable_translation_file_status(translation_file)
+    case translation_file.status
     when 'available'
       'Ready to pick'
     when 'in_progress'
@@ -23,6 +23,8 @@ module ApplicationHelper
       'Waiting for Review'
     when 'reviewed'
       'Reviewed'
+    when 'expired'
+      'Expired'
     end
   end
 end
