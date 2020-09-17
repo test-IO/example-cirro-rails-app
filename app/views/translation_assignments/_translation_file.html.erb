@@ -50,5 +50,9 @@
     <% else %>
       Taken by another user
     <% end %>
+  <% when 'reviewed' %>
+    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+      <%= translation_file.translation_result.status.capitalize %>
+    </span>
   <% end %>
 </td>

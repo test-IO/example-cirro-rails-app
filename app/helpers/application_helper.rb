@@ -22,7 +22,7 @@ module ApplicationHelper
     when 'waiting_for_review'
       'Waiting for Review'
     when 'reviewed'
-      translation_file.translation_result.user_id == current_user.id ? translation_file.translation_result.status.capitalize : 'Reviewed'
+      'Reviewed'
     when 'expired'
       'Expired'
     end
