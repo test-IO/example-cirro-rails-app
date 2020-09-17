@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   resources :translation_results, only: [:create, :update]
 
   scope module: 'admin', path: '/admin', as: 'admin' do
-    resources :translation_assignments, only: [:new, :create, :show, :index, :update]
+    resources :translation_assignments, only: [:new, :create, :show, :index] do
+      put :archive, to: 'translation_assignments#archive'
+    end
     resources :translation_results, only: [] do
       member do
         patch :accept
