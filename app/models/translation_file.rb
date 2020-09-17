@@ -5,9 +5,13 @@ class TranslationFile < ApplicationRecord
 
   validates :status, presence: true
 
+  scope :for_user, ->(user) {
+    includes(:translation_result).references(:translation_result).where("translation_files.status = 'available' OR translation_results.user_id = ?", user.id)
+  }
   scope :available, -> { where(status: :available) }
   scope :in_progress, -> { where(status: :in_progress) }
   scope :pending_review, -> { where(status: :waiting_for_review) }
+
 
   state_machine :status, initial: :available do
     event :pick do
