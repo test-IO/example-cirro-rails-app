@@ -11,7 +11,7 @@
   <% if translation_file.translation_result && translation_file.translation_result.user_id == current_user.id %>
     You
   <% elsif translation_file.translation_result.present? %>
-    <%= translation_result.user.email %>
+    <%= translation_file.translation_result.user.screenname %>
   <% end %>
 </td>
 
