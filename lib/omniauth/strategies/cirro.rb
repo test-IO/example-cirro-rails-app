@@ -13,7 +13,8 @@ module OmniAuth
 
       info do
         {
-          email: raw_info.dig('data', 'attributes', 'worker-document', 'email')
+          email: raw_info.dig('data', 'attributes', 'worker-document', 'email'),
+          screenname: raw_info.dig('data', 'attributes', 'screenname')
         }
       end
 
