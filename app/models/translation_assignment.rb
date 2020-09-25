@@ -15,6 +15,7 @@ class TranslationAssignment < ApplicationRecord
   state_machine :status, initial: :active do
     after_transition active: :archived do |assignment, _|
       assignment.translation_files.available.map(&:expire)
+      assignment.archive_gig
     end
 
     state :archived do
@@ -32,6 +33,11 @@ class TranslationAssignment < ApplicationRecord
 
   def title_with_id
     "##{id} #{title}"
+  end
+
+  def archive_gig
+    gig = CirroClient::Gig.find(gig_idx).first
+    gig.update_attributes('archive-at': Time.current)
   end
 
   private
