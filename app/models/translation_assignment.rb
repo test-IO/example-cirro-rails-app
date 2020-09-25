@@ -1,5 +1,7 @@
 class TranslationAssignment < ApplicationRecord
   has_many :translation_files
+  has_many :translation_results, through: :translation_files
+
   accepts_nested_attributes_for :translation_files
 
   attr_accessor :total_seats
@@ -37,6 +39,21 @@ class TranslationAssignment < ApplicationRecord
 
   def archive_gig
     gig = CirroClient::Gig.find(gig_idx).first
+    results = translation_results.accepted
+
+    results.map(&:user).uniq.each do |user|
+      app_worker = CirroClient::AppWorker.new(id: user.uid)
+      gig_time_activity = CirroClient::GigTimeActivity.new
+      gig_time_activity.description = "translation ##{id}: #{from_language} > #{to_language}"
+      gig_time_activity.date = Time.current
+      gig_time_activity['duration-in-ms'] = results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000
+
+      gig_time_activity.relationships['gig'] = gig
+      gig_time_activity.relationships['app-worker'] = app_worker
+
+      gig_time_activity.save
+    end
+
     gig.update_attributes('archive-at': Time.current)
   end
 
