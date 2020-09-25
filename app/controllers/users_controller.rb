@@ -10,8 +10,7 @@ class UsersController < ApplicationController
     @user.languages= @user.languages.reject!(&:blank?)
     @user.domains= @user.domains.reject!(&:blank?)
     if @user.save
-      flash[:success] = 'Success'
-      redirect_to edit_user_path(@user)
+      redirect_to edit_user_path(@user), notice: 'Profile updated successfully'
     else
       flash[:error] = 'There was an error'
       render :edit

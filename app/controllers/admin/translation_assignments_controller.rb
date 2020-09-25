@@ -16,8 +16,7 @@ class Admin::TranslationAssignmentsController < ApplicationController
       params[:translation_files][:file].each do |file|
         @translation_file = @assignment.translation_files.create(file: file, translation_assignment_id: @assignment.id)
       end
-      flash[:success] = 'Success'
-      redirect_to admin_translation_assignment_path(@assignment)
+      redirect_to admin_translation_assignment_path(@assignment), notice: 'Assignment created successfully'
     else
       flash[:error] = 'There was an error'
       render :new
@@ -36,8 +35,7 @@ class Admin::TranslationAssignmentsController < ApplicationController
   def archive
     @assignment = TranslationAssignment.find(params[:translation_assignment_id])
     @assignment.archive if @assignment.archivable?
-    flash[:success] = 'Assignment is archived'
-    redirect_to admin_translation_assignment_path(@assignment)
+    redirect_to admin_translation_assignment_path(@assignment), notice: 'Assignment is archived'
   end
 
   private
