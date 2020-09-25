@@ -16,6 +16,10 @@ class TranslationResult < ApplicationRecord
       translation_result.translation_file.review!
     end
 
+    after_transition submitted: :accepted do |translation_result, _|
+      translation_result.send_time_activity_to_cirro
+    end
+
     event :submit do
       transition started: :submitted
     end
@@ -32,5 +36,20 @@ class TranslationResult < ApplicationRecord
       validates_presence_of :file
       validates_presence_of :submitted_at
     end
+  end
+
+  def send_time_activity_to_cirro
+    app_worker = CirroClient::AppWorker.new(id: user.uid)
+    gig = CirroClient::Gig.new(id: translation_assignment.gig_idx)
+
+    gig_time_activity = CirroClient::GigTimeActivity.new
+    gig_time_activity.description = "translation ##{translation_assignment.id} - #{File.basename(translation_file.file.path)} - (#{translation_assignment.from_language}>#{translation_assignment.to_language})"
+    gig_time_activity.date = Time.current
+    gig_time_activity['duration-in-ms'] = (submitted_at-started_at) * 1000
+
+    gig_time_activity.relationships['gig'] = gig
+    gig_time_activity.relationships['app-worker'] = app_worker
+
+    gig_time_activity.save
   end
 end
