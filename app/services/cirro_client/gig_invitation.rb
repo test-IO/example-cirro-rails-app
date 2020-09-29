@@ -3,9 +3,5 @@ module CirroClient
     def self.resource_name
       'gig-invitations'
     end
-
-    def self.table_name
-      'gig-invitation'
-    end
   end
 end
