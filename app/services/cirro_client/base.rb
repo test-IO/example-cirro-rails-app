@@ -2,7 +2,10 @@ module CirroClient
   # this is an "abstract" base class that
   class Base < JsonApiClient::Resource
     # set the api base url in an abstract base class
+
     self.site = "#{Settings.cirro.site}/#{Settings.cirro.api_version}"
+    self.route_format = :dasherized_route
+    self.json_key_format = :dasherized_key
   end
 end
 

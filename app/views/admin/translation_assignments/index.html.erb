@@ -3,7 +3,7 @@
     <% @assignments.each do |assignment| %>
     <li>
       <%= link_to admin_translation_assignment_path(assignment), class: 'block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out' do %>
-        <%= render 'translation_assignments/assignment_link', assignment: assignment %>
+        <%= render 'translation_assignments/assignment_link', assignment: assignment, color: 'green' %>
       <% end %>
     </li>
     <% end %>
