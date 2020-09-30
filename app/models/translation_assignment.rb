@@ -44,16 +44,16 @@ class TranslationAssignment < ApplicationRecord
 
   def create_gig
     filter = CirroClient::WorkerInvitationFilter.new
-    filter['filter-query'] = %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } })
+    filter.filter_query = %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } })
     filter.save
 
     gig = CirroClient::Gig.new
     gig.title = title
     gig.description = description
     gig.url = Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host)
-    gig['total-seats'] = total_seats
-    gig['automatic-invites'] = true
-    gig.relationships['worker-invitation-filter'] = filter
+    gig.total_seats = total_seats
+    gig.automatic_invites = true
+    gig.relationships.worker_invitation_filter = filter
     gig.save
 
     update_attribute(:gig_idx, gig.id)
