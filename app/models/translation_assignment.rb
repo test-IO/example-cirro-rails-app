@@ -6,7 +6,7 @@ class TranslationAssignment < ApplicationRecord
 
   attr_accessor :total_seats
 
-  after_commit :create_gig, on: :create
+  after_commit :create_gig_with_tasks_and_invitation_filter, on: :create
 
   validates :title, presence: true
   validates :domain, presence: true
@@ -59,20 +59,30 @@ class TranslationAssignment < ApplicationRecord
 
   private
 
-  def create_gig
-    filter = CirroClient::WorkerInvitationFilter.new
-    filter['filter-query'] = %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } })
-    filter.save
+  def create_gig_with_tasks_and_invitation_filter
+    price_per_translation_result = 500
+    payload = {
+      data: {
+        attributes: {
+          title: title,
+          description: description,
+          url: Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host),
+          total_seats: 10,
+          automatic_invites: true,
+          archive_at: 1.month.from_now,
+        },
+        relationships: {
+          worker_invitation_filter: {
+            filter_query: %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } })
+          },
+          gig_tasks: [
+            { title: self.class.name, base_price: price_per_translation_result }
+          ]
+        }
+      }
+    }
+    response = CirroClient::BulkActions::Gig.bulk_create(payload)
 
-    gig = CirroClient::Gig.new
-    gig.title = title
-    gig.description = description
-    gig.url = Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host)
-    gig['total-seats'] = total_seats
-    gig['automatic-invites'] = true
-    gig.relationships['worker-invitation-filter'] = filter
-    gig.save
-
-    update_attribute(:gig_idx, gig.id)
+    update_attribute(:gig_idx, response['id']) if response.present?
   end
 end

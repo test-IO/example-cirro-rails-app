@@ -14,7 +14,12 @@ Rails.application.routes.draw do
   root to: "translation_assignments#index"
 
   resources :users, only: [:edit, :update]
-  resources :translation_assignments, only: [:show, :index]
+  resources :translation_assignments, only: [:show, :index] do
+    member do
+      put :accept
+      put :reject
+    end
+  end
   resources :translation_results, only: [:create, :update]
 
   scope module: 'admin', path: '/admin', as: 'admin' do

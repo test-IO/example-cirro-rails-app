@@ -31,10 +31,10 @@ class User < ApplicationRecord
 
   def update_app_worker
     app_worker = CirroClient::AppWorker.find(uid).first
-    worker_document = app_worker['worker-document'].dup
+    worker_document = app_worker.worker_document.dup
     worker_document['languages'] = languages
     worker_document['domains'] = domains
     worker_document.delete('updated_at')
-    app_worker.update_attributes('worker-document': worker_document)
+    app_worker.update_attributes(worker_document: worker_document)
   end
 end
