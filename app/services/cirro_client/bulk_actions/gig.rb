@@ -30,6 +30,41 @@ module CirroClient
           nil
         end
       end
+
+      # example for payload:
+      # {
+      #    "data":{
+      #       "relationships":{
+      #          "gig_results":[
+      #             {
+      #                "app_worker_id":4,
+      #                "title":"Modern Times",
+      #                "description":"Here's looking at you, kid.",
+      #                "quantity":2
+      #             }
+      #          ],
+      #          "gig_time_activities":[
+      #             {
+      #                "app_worker_id":4,
+      #                "description":"What we've got here is failure to communicate.",
+      #                "date":"2022-01-01T01:00:00.000Z",
+      #                "duration_in_ms":360000
+      #             }
+      #          ]
+      #       }
+      #    }
+      # }
+
+      def self.bulk_archive(gig_id, payload)
+        url = "#{SITE}/gigs/#{gig_id}/archive"
+        response = Faraday.post(url, payload.to_json, **headers)
+
+        if response.status == 201
+          JSON.parse(response.body)['data']
+        else
+          nil
+        end
+      end
     end
   end
 end

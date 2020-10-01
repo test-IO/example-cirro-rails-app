@@ -7,6 +7,7 @@ class TranslationResult < ApplicationRecord
   validates :status, :started_at, presence: true
 
   scope :started, -> { where(status: 'started') }
+  scope :accepted, -> { where(status: 'accepted') }
 
   state_machine :status, initial: :started do
     before_transition started: :submitted do |translation_result, _|

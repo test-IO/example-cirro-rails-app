@@ -1,5 +1,7 @@
 class TranslationAssignment < ApplicationRecord
   has_many :translation_files
+  has_many :translation_results, through: :translation_files
+
   accepts_nested_attributes_for :translation_files
 
   attr_accessor :total_seats
@@ -36,8 +38,35 @@ class TranslationAssignment < ApplicationRecord
   end
 
   def archive_gig
-    gig = CirroClient::Gig.find(gig_idx).first
-    gig.update_attributes('archive-at': Time.current)
+    results = translation_results.accepted
+    gig_results = results.map(&:user).uniq.map do |user|
+      { 
+        app_worker_id: user.uid,
+        title: "translation ##{id}",
+        description: "Language: #{from_language} > #{to_language}",
+        quantity: results.select {|result| result.user_id == user.id}.count
+      }
+    end
+
+    gig_time_activities = results.map(&:user).uniq.map do |user|
+      {
+        app_worker_id: user.uid,
+        description: "translation ##{id}: #{from_language} > #{to_language}",
+        date: Time.current,
+        duration_in_ms: results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000
+      }
+    end
+
+    payload = {
+      data: {
+        relationships: {
+          gig_results: gig_results,
+          gig_time_activities: gig_time_activities
+        }
+      }
+    }
+
+    CirroClient::BulkActions::Gig.bulk_archive(gig_idx, payload)
   end
 
   private
