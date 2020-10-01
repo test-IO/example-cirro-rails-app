@@ -38,23 +38,35 @@ class TranslationAssignment < ApplicationRecord
   end
 
   def archive_gig
-    gig = CirroClient::Gig.find(gig_idx).first
     results = translation_results.accepted
-
-    results.map(&:user).uniq.each do |user|
-      app_worker = CirroClient::AppWorker.new(id: user.uid)
-      gig_time_activity = CirroClient::GigTimeActivity.new
-      gig_time_activity.description = "translation ##{id}: #{from_language} > #{to_language}"
-      gig_time_activity.date = Time.current
-      gig_time_activity['duration-in-ms'] = results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000
-
-      gig_time_activity.relationships['gig'] = gig
-      gig_time_activity.relationships['app-worker'] = app_worker
-
-      gig_time_activity.save
+    gig_results = results.map(&:user).uniq.map do |user|
+      { 
+        app_worker_id: user.uid,
+        title: "translation ##{id}",
+        description: "Language: #{from_language} > #{to_language}",
+        quantity: results.select {|result| result.user_id == user.id}.count
+      }
     end
 
-    gig.update_attributes('archive-at': Time.current)
+    gig_time_activities = results.map(&:user).uniq.map do |user|
+      {
+        app_worker_id: user.uid,
+        description: "translation ##{id}: #{from_language} > #{to_language}",
+        date: Time.current,
+        duration_in_ms: results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000
+      }
+    end
+
+    payload = {
+      data: {
+        relationships: {
+          gig_results: gig_results,
+          gig_time_activities: gig_time_activities
+        }
+      }
+    }
+
+    CirroClient::BulkActions::Gig.bulk_archive(gig_idx, payload)
   end
 
   private
