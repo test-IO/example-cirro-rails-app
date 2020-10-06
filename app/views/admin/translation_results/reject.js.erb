@@ -1,2 +1,4 @@
 var tr = document.getElementById("translation_file_<%= @translation_result.translation_file_id %>");
 tr.innerHTML = "<%= j render 'admin/translation_assignments/translation_file', translation_file: @translation_result.translation_file  %>";
+var div = document.getElementById("archive_translation_assignment_form");
+div.innerHTML = "<%= j render 'admin/translation_assignments/archive_translation_assignment_form', translation_assignment: @translation_result.translation_file.translation_assignment  %>";
