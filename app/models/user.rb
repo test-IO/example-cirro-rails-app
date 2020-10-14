@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   validates :screenname, presence: true
 
-  after_commit :update_app_worker, on: :update
+  after_commit :create_or_update_app_worker, on: :update
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -29,12 +29,21 @@ class User < ApplicationRecord
 
   private
 
-  def update_app_worker
-    app_worker = CirroClient::AppWorker.find(uid).first
-    worker_document = app_worker.worker_document.dup
-    worker_document['languages'] = languages
-    worker_document['domains'] = domains
-    worker_document.delete('updated_at')
-    app_worker.update_attributes(worker_document: worker_document)
+  def create_or_update_app_worker
+    return if (previous_changes.keys & ['languages', 'domains']).empty?
+
+    app_user = CirroClient::AppUser.includes(:app_worker).find(uid).first
+
+    if app_user.app_worker.nil?
+      CirroClient::AppWorker.create(relationships: { app_user: app_user },
+                                    worker_document: { 'languages' => languages, 'domains' => domains })
+    else
+      app_worker = app_user.app_worker
+      worker_document = app_worker.worker_document.dup
+      worker_document['languages'] = languages
+      worker_document['domains'] = domains
+      worker_document.delete('updated_at')
+      app_worker.update_attributes(worker_document: worker_document)
+    end
   end
 end
