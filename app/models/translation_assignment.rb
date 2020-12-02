@@ -39,62 +39,43 @@ class TranslationAssignment < ApplicationRecord
 
   def archive_gig
     results = translation_results.accepted
+
     gig_results = results.map(&:user).uniq.map do |user|
-      { 
-        app_worker_id: user.uid,
-        title: "translation ##{id}",
-        description: "Language: #{from_language} > #{to_language}",
-        quantity: results.select {|result| result.user_id == user.id}.count
-      }
+      CirroIO::Client::GigResult.new(app_worker: CirroIO::Client::AppWorker.new(id: user.uid),
+                                     title: "translation ##{id}",
+                                     description: "Language: #{from_language} > #{to_language}",
+                                     quantity: results.select {|result| result.user_id == user.id}.count)
     end
 
     gig_time_activities = results.map(&:user).uniq.map do |user|
-      {
-        app_worker_id: user.uid,
-        description: "translation ##{id}: #{from_language} > #{to_language}",
-        date: Time.current,
-        duration_in_ms: results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000
-      }
+      CirroIO::Client::GigTimeActivity.new(app_worker: CirroIO::Client::AppWorker.new(id: user.uid),
+                                           description: "translation ##{id}: #{from_language} > #{to_language}",
+                                           date: Time.current,
+                                           duration_in_ms: results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000)
     end
 
-    payload = {
-      data: {
-        relationships: {
-          gig_results: gig_results,
-          gig_time_activities: gig_time_activities
-        }
-      }
-    }
+    gig = CirroIO::Client::Gig.new(id: gig_idx)
 
-    CirroClient::BulkActions::Gig.bulk_archive(gig_idx, payload)
+    gig.bulk_archive_with(gig_results, gig_time_activities)
   end
 
   private
 
   def create_gig_with_tasks_and_invitation_filter
     price_per_translation_result = 500
-    payload = {
-      data: {
-        attributes: {
-          title: title,
-          description: description,
-          url: Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host),
-          total_seats: 10,
-          automatic_invites: true,
-          archive_at: 1.month.from_now,
-        },
-        relationships: {
-          worker_invitation_filter: {
-            filter_query: %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } })
-          },
-          gig_tasks: [
-            { title: self.class.name, base_price: price_per_translation_result }
-          ]
-        }
-      }
-    }
-    response = CirroClient::BulkActions::Gig.bulk_create(payload)
+    worker_invitation_filter = CirroIO::Client::WorkerInvitationFilter.new(filter_query: %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } }))
+    task = CirroIO::Client::GigTask.new(title: self.class.name, base_price: price_per_translation_result)
 
-    update_attribute(:gig_idx, response['id']) if response.present?
+    gig = CirroIO::Client::Gig.new(title: title,
+                                   description: description,
+                                   total_seats: 10,
+                                   automatic_invites: true,
+                                   archive_at: 1.month.from_now,
+                                   url: Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host)
+                                  )
+
+    created_gig = gig.bulk_create_with(worker_invitation_filter, [task])
+
+    update_attribute(:gig_idx, created_gig.id)
   end
 end

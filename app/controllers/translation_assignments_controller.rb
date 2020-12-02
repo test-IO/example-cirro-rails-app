@@ -45,7 +45,8 @@ class TranslationAssignmentsController < ApplicationController
   private
 
   def fetch_app_worker
-    @app_worker = CirroClient::AppUser.includes('app_worker.gig_invitations').find(current_user.uid).first.app_worker
+    app_user = CirroIO::Client::AppUser.includes('app_worker.gig_invitations').find(current_user.uid).first
+    @app_worker = app_user.app_worker
   end
 
   def fetch_assignment
