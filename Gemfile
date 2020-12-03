@@ -32,13 +32,13 @@ gem 'devise'
 
 gem 'omniauth-oauth2'
 
-gem 'json_api_client'
-
 gem 'config'
 
 gem 'carrierwave'
 
 gem 'state_machines-activerecord'
+
+gem 'cirro-ruby-client'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
