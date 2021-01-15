@@ -42,9 +42,7 @@ class TranslationAssignment < ApplicationRecord
     results = translation_results.accepted
 
     gig_results = results.map(&:user).uniq.map do |user|
-      app_user = CirroIO::Client::AppUser.includes('app_worker').find(user.uid).first
-      app_worker = app_user.app_worker
-      CirroIO::Client::GigResult.new(app_worker: app_worker,
+      CirroIO::Client::GigResult.new(app_worker: CirroIO::Client::AppWorker.new(id: user.app_worker_idx),
                                      title: "translation ##{id}",
                                      gig_task: gig.gig_tasks.first,
                                      description: "Language: #{from_language} > #{to_language}",
@@ -52,9 +50,7 @@ class TranslationAssignment < ApplicationRecord
     end
 
     gig_time_activities = results.map(&:user).uniq.map do |user|
-      app_user = CirroIO::Client::AppUser.includes('app_worker').find(user.uid).first
-      app_worker = app_user.app_worker
-      CirroIO::Client::GigTimeActivity.new(app_worker: app_worker,
+      CirroIO::Client::GigTimeActivity.new(app_worker: CirroIO::Client::AppWorker.new(id: user.app_worker_idx),
                                            description: "translation ##{id}: #{from_language} > #{to_language}",
                                            date: Time.current,
                                            duration_in_ms: results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000)
