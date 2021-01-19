@@ -35,8 +35,8 @@ class User < ApplicationRecord
     app_user = CirroIO::Client::AppUser.includes(:app_worker).find(uid).first
 
     if app_user.app_worker.nil?
-      CirroIO::Client::AppWorker.create(relationships: { app_user: app_user },
-                                    worker_document: { 'languages' => languages, 'domains' => domains })
+      app_worker = CirroIO::Client::AppWorker.create(relationships: { app_user: app_user },
+                                                     worker_document: { 'languages' => languages, 'domains' => domains })
     else
       app_worker = app_user.app_worker
       worker_document = app_worker.worker_document.dup
@@ -45,5 +45,7 @@ class User < ApplicationRecord
       worker_document.delete('updated_at')
       app_worker.update_attributes(worker_document: worker_document)
     end
+
+    self.update(app_worker_idx: app_worker.id)
   end
 end

@@ -38,23 +38,23 @@ class TranslationAssignment < ApplicationRecord
   end
 
   def archive_gig
+    gig = CirroIO::Client::Gig.includes('gig_tasks').find(gig_idx).first
     results = translation_results.accepted
 
     gig_results = results.map(&:user).uniq.map do |user|
-      CirroIO::Client::GigResult.new(app_worker: CirroIO::Client::AppWorker.new(id: user.uid),
+      CirroIO::Client::GigResult.new(app_worker: CirroIO::Client::AppWorker.new(id: user.app_worker_idx),
                                      title: "translation ##{id}",
+                                     gig_task: gig.gig_tasks.first,
                                      description: "Language: #{from_language} > #{to_language}",
                                      quantity: results.select {|result| result.user_id == user.id}.count)
     end
 
     gig_time_activities = results.map(&:user).uniq.map do |user|
-      CirroIO::Client::GigTimeActivity.new(app_worker: CirroIO::Client::AppWorker.new(id: user.uid),
+      CirroIO::Client::GigTimeActivity.new(app_worker: CirroIO::Client::AppWorker.new(id: user.app_worker_idx),
                                            description: "translation ##{id}: #{from_language} > #{to_language}",
                                            date: Time.current,
                                            duration_in_ms: results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000)
     end
-
-    gig = CirroIO::Client::Gig.new(id: gig_idx)
 
     gig.bulk_archive_with(gig_results, gig_time_activities)
   end

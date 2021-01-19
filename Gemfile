@@ -38,7 +38,7 @@ gem 'carrierwave'
 
 gem 'state_machines-activerecord'
 
-gem 'cirro-ruby-client'
+gem 'cirro-ruby-client', '~> 1.2.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
