@@ -63,7 +63,7 @@ class TranslationAssignment < ApplicationRecord
 
   def create_gig_with_tasks_and_invitation_filter
     price_per_translation_result = 500
-    worker_invitation_filter = CirroIO::Client::WorkerInvitationFilter.new(filter_query: %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } }))
+    worker_filter = CirroIO::Client::WorkerFilter.new(filter_query: %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } }))
     task = CirroIO::Client::GigTask.new(title: self.class.name, base_price: price_per_translation_result)
 
     gig = CirroIO::Client::Gig.new(title: title,
@@ -74,7 +74,7 @@ class TranslationAssignment < ApplicationRecord
                                    url: Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host)
                                   )
 
-    created_gig = gig.bulk_create_with(worker_invitation_filter, [task])
+    created_gig = gig.bulk_create_with(worker_filter, [task])
 
     update_attribute(:gig_idx, created_gig.id)
   end
