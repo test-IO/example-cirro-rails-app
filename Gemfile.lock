@@ -80,9 +80,10 @@ GEM
       mimemagic (>= 0.3.0)
       mini_mime (>= 0.1.3)
     childprocess (3.0.0)
-    cirro-ruby-client (1.2.2)
+    cirro-ruby-client (1.3.0)
+      faraday (< 1.2.0)
       faraday_middleware
-      json_api_client
+      json_api_client (>= 1.10.0)
       jwt
     coderay (1.1.3)
     concurrent-ruby (1.1.7)
@@ -327,7 +328,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   carrierwave
-  cirro-ruby-client (~> 1.2.2)
+  cirro-ruby-client (~> 1.3.0)
   config
   devise
   jbuilder (~> 2.7)
