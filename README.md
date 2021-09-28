@@ -11,7 +11,7 @@
 ### Setup
 ```bash
 git clone https://github.com/test-IO/example-cirro-rails-app
-cd example-cirro-rails-app && bin/setup
+cd example-cirro-rails-app && yarn install && bin/setup
 ```
 
 ### Connection with cirro locally
