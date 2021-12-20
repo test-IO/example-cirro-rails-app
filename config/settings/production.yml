@@ -1,0 +1,6 @@
+cirro:
+  site: "https://api.staging.cirro.io"
+  authorize_url: "https://staging.cirro.io/oauth/authorize"
+  app_id: <%= ENV.fetch("CIRRO_APP_ID") %>
+  app_secret: <%= ENV.fetch("CIRRO_APP_SECRET") %>
+host: "https://zml4.hatchboxapp.com"
