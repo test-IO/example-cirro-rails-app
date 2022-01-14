@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def languages_collection
-    [['English', 'english'], ['German', 'german'], ['Russian', 'russian'], ['French', 'french'], ['Arabic', 'arabic']]
+    [['English', 'english'], ['German', 'german'], ['Russian', 'russian'], ['French', 'french'], ['Arabic', 'arabic'], ['Italian', 'italian']]
   end
 
   def human_readable_translation_file_status(translation_file)
