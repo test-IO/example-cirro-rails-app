@@ -15,14 +15,6 @@ class User < ApplicationRecord
 
   after_commit :create_or_update_app_worker, on: :update
 
-  def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.screenname = auth.info.screenname
-      user.password = Devise.friendly_token[0, 20]
-    end
-  end
-
   def update_cirro_access_token(auth)
     update(cirro_access_token: auth.credentials.token)
   end

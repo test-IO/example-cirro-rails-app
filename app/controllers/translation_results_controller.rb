@@ -1,4 +1,6 @@
 class TranslationResultsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     @translation_file = TranslationFile.find(params[:translation_file_id])
 

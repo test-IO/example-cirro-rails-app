@@ -1,4 +1,5 @@
 class TranslationAssignmentsController < ApplicationController
+  before_action :authenticate_user!
   before_action :fetch_app_worker
   before_action :fetch_assignment, except: [:index]
 
