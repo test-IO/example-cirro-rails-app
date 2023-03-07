@@ -8,10 +8,14 @@ class TranslationResultsController < ApplicationController
       @translation_result = current_user.translation_results.create(translation_file: @translation_file, started_at: Time.current)
       @translation_file.pick if @translation_result.persisted?
     end
+
+    @assignment = @translation_file.translation_assignment
+    render turbo_stream: turbo_stream.update("translation_files",
+                                             partial: 'translation_assignments/translation_files')
   end
 
   def update
-    file = params[:translation_result][:file].first
+    file = params[:translation_result][:file].find { |f| !f.blank? }
     @translation_result = current_user.translation_results.find(params[:id])
     @translation_result.file = file
     @translation_result.submit
@@ -22,6 +26,10 @@ class TranslationResultsController < ApplicationController
     else
       @translation_file.errors.add(:base, @translation_result.errors.full_messages.to_sentence)
     end
+
+    @assignment = @translation_file.translation_assignment
+    render turbo_stream: turbo_stream.update("translation_files",
+                                             partial: 'translation_assignments/translation_files')
   end
 
   private

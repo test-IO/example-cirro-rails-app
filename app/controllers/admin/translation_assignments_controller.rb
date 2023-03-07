@@ -14,6 +14,7 @@ class Admin::TranslationAssignmentsController < ApplicationController
     @assignment = TranslationAssignment.new(translation_assignment_params.merge(total_seats: params[:translation_files][:file].length * 3))
     if @assignment.save
       params[:translation_files][:file].each do |file|
+        next if file.blank?
         @translation_file = @assignment.translation_files.create(file: file, translation_assignment_id: @assignment.id)
       end
       redirect_to admin_translation_assignment_path(@assignment), notice: 'Assignment created successfully'

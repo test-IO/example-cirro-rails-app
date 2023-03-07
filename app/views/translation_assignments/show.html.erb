@@ -19,29 +19,7 @@
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table class="table-fixed w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th class="w-1/3 px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                  File
-                </th>
-                <th class="w-1/3 px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th class="w-1/3 px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                  Picked By
-                </th>
-                <th class="w-1/3 px-6 py-3 bg-gray-50"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @assignment.translation_files.for_user(current_user).each do |translation_file| %>
-                <tr id="translation_file_<%= translation_file.id %>" class="bg-white">
-                  <%= render 'translation_file', translation_file: translation_file %>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+          <%= render 'translation_files' %>
         </div>
       </div>
     </div>

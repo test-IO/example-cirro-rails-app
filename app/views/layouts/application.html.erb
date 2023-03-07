@@ -48,7 +48,7 @@
                       <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg hidden" data-target="toggle.toggleable">
                         <div class="py-1 rounded-md bg-white shadow-xs">
                           <a href="#" class="block px-4 py-2 text-sm text-black hover:bg-red-100">Visit Cirro</a>
-                          <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'block px-4 py-2 text-sm text-black hover:bg-red-100' %>
+                          <%= button_to 'Sign out', destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'block px-4 py-2 text-sm text-black hover:bg-red-100' %>
                         </div>
                       </div>
                     </div>
