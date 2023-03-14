@@ -37,44 +37,59 @@ class TranslationAssignment < ApplicationRecord
     "##{id} #{title}"
   end
 
+  # In a real application interaction with cirro should be happening inside a background job
   def archive_gig
-    gig = CirroIO::Client::Gig.includes('gig_tasks').find(gig_idx).first
+    # Normally we would store the gig task's id
+    # so that we don't need to fetch the gig here
+    gig = CIRRO_V2_CLIENT.Gig.find(gig_idx)
+    task = gig.tasks.data.first
     results = translation_results.accepted
 
-    gig_results = results.map(&:user).uniq.map do |user|
-      CirroIO::Client::GigResult.new(app_worker: CirroIO::Client::AppWorker.new(id: user.app_worker_idx),
-                                     title: "translation ##{id}",
-                                     gig_task: gig.gig_tasks.first,
-                                     description: "Language: #{from_language} > #{to_language}",
-                                     quantity: results.select {|result| result.user_id == user.id}.count)
+    gig_results = results.group_by(&:user).map do |user, res|
+      CIRRO_V2_CLIENT.GigResult.create(gig_task_id: task.id,
+                                       user_id: user.uid,
+                                       title: "translation ##{id}",
+                                       description: "Language: #{from_language} > #{to_language}",
+                                       quantity: res.count,
+                                       delivery_date: res.first.submitted_at,
+                                       cost_center_key: 'EPMCIR') # epam project code to which the cost is booked
     end
 
-    gig_time_activities = results.map(&:user).uniq.map do |user|
-      CirroIO::Client::GigTimeActivity.new(app_worker: CirroIO::Client::AppWorker.new(id: user.app_worker_idx),
-                                           description: "translation ##{id}: #{from_language} > #{to_language}",
-                                           date: Time.current,
-                                           duration_in_ms: results.select {|result| result.user_id == user.id}.map{|result| result.submitted_at - result.started_at }.sum * 1000)
+    gig_time_activities = results.group_by(&:user).map do |user, res|
+      CIRRO_V2_CLIENT.GigTimeActivity.create(gig_id: gig.id,
+                                             user_id: user.uid,
+                                             date: Time.current,
+                                             description: "translation ##{id}: #{from_language} > #{to_language}",
+                                             duration_in_ms: res.map { |result| result.submitted_at - result.started_at }.sum * 1000) # need to split it into different days
     end
 
-    gig.bulk_archive_with(gig_results, gig_time_activities)
+    CIRRO_V2_CLIENT.Gig.archive(gig_idx)
   end
 
   private
 
   def create_gig_with_tasks_and_invitation_filter
     price_per_translation_result = 500
-    worker_filter = CirroIO::Client::WorkerFilter.new(filter_query: %Q({ "languages": { "$in": ["#{from_language}", "#{to_language}"] }, "domains": { "$in": ["#{domain}"] } }))
-    task = CirroIO::Client::GigTask.new(title: self.class.name, base_price: price_per_translation_result)
 
-    gig = CirroIO::Client::Gig.new(title: title,
-                                   description: description,
-                                   total_seats: 10,
-                                   automatic_invites: true,
-                                   archive_at: 1.month.from_now,
-                                   url: Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host)
-                                  )
-
-    created_gig = gig.bulk_create_with(worker_filter, [task])
+    created_gig = CIRRO_V2_CLIENT.Gig.create(
+      title: title,
+      description: description,
+      seats_min: 10,
+      invitation_mode: 'auto',
+      archive_at: 1.month.from_now,
+      start_at: Time.current,
+      end_at: 1.week.from_now,
+      url: Rails.application.routes.url_helpers.translation_assignment_url(id, host: Settings.host),
+      filter_query: {
+        languages: {
+          '$in': [from_language, to_language]
+        },
+        domains: [domain]
+      },
+      tasks: [
+        { title: self.class.name, base_price: price_per_translation_result }
+      ]
+    )
 
     update_attribute(:gig_idx, created_gig.id)
   end

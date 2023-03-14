@@ -1,4 +1,4 @@
- (() => new EventSource("http://localhost:5100").onmessage = () => location.reload())();
+ (() => new EventSource("http://localhost:3100").onmessage = () => location.reload())();
 (() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;

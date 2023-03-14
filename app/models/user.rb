@@ -24,20 +24,7 @@ class User < ApplicationRecord
   def create_or_update_app_worker
     return if (previous_changes.keys & ['languages', 'domains']).empty?
 
-    app_user = CirroIO::Client::AppUser.includes(:app_worker).find(uid).first
-
-    if app_user.app_worker.nil?
-      app_worker = CirroIO::Client::AppWorker.create(relationships: { app_user: app_user },
-                                                     worker_document: { 'languages' => languages, 'domains' => domains })
-    else
-      app_worker = app_user.app_worker
-      worker_document = app_worker.worker_document.dup
-      worker_document['languages'] = languages
-      worker_document['domains'] = domains
-      worker_document.delete('updated_at')
-      app_worker.update_attributes(worker_document: worker_document)
-    end
-
-    self.update(app_worker_idx: app_worker.id)
+    worker_document = { 'languages' => languages, 'domains' => domains }
+    CIRRO_V2_CLIENT.User.worker(uid, {document: worker_document})
   end
 end

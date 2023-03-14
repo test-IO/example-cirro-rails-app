@@ -8,22 +8,23 @@ module OmniAuth
              authorize_url: Settings.cirro.authorize_url
 
       uid do
-        raw_info.dig('data', 'id')
+        raw_info['id']
       end
 
       info do
-        email = raw_info.dig('data', 'attributes', 'email')
         {
-          first_name: raw_info.dig('data', 'attributes', 'first-name'),
-          last_name: raw_info.dig('data', 'attributes', 'last-name'),
-          time_zone: raw_info.dig('data', 'attributes', 'time-zone'),
-          email: email,
-          screenname: raw_info.dig('data', 'attributes', 'screenname') || email.split('@').first
+          first_name: raw_info['first_name'],
+          last_name: raw_info['last_name'],
+          time_zone: raw_info['time_zone'],
+          screenname: raw_info['screen_name'] || raw_info['first_name'],
+          country_code: raw_info['country_code'],
+          worker: raw_info['worker'],
+          epam: raw_info['epam']
         }
       end
 
       def raw_info
-        @raw_info ||= JSON.parse(access_token.get("/v1/app-users/me.json?include=app-worker").body)
+        @raw_info ||= JSON.parse(access_token.get("/v2/users/me").body)
       end
     end
   end

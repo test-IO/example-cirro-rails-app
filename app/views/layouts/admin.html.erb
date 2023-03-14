@@ -6,8 +6,7 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true, nonce: true %>
   </head>
 
   <body>
@@ -44,7 +43,7 @@
         <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
           <!-- Replace with your content -->
           <div class="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-            <div class="border-4 border-dashed border-green-200 rounded-lg h-96">
+            <div class="border-4 border-dashed border-green-200 rounded-lg">
               <%= yield %>
             </div>
           </div>
