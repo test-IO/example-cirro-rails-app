@@ -1,0 +1,28 @@
+services:
+    db: 
+        image: mysql/mysql-server:latest
+        restart: always
+        environment:
+            MYSQL_DATABASE: example_cirro_rails_app_development
+            MYSQL_USER: root
+            MYSQL_PASSWORD: password
+        ports:
+            - "3306:3306"
+        command: --default-authentication-plugin=mysql_native_password
+
+    app: 
+        build: .
+        command: bundle exec rails s -p 3000 -b '0.0.0.0'
+        volumes: 
+            - ".:/app"
+        ports: 
+            - "3000:3000"
+        depends_on:
+            - db
+        links:
+            - db
+        environment:
+            DB_USER: root
+            DB_NAME: example_cirro_rails_app_development
+            DB_PASSWORD: password
+            DB_HOST: db
