@@ -7,9 +7,7 @@ args = {
 }
 
 if Rails.env.production?
-  args[:private_key] = Base64.decode64(
-    ENV.fetch("cirro_private_key")
-  )
+  args[:private_key] = ENV.fetch("cirro_private_key")
 else
   args[:private_key_path] = './key.pem'
 end
