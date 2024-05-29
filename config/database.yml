@@ -48,7 +48,4 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: example_cirro_rails_app_production
-  url: <%= ENV.fetch("JAWSDB_URL") %>
-  socket:
+  url:  <%= ENV.fetch("JAWSDB_URL") %>
