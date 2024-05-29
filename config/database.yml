@@ -48,7 +48,5 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
   database: example_cirro_rails_app_production
-  username: example_cirro_rails_app
-  password: <%= ENV['EXAMPLE_CIRRO_RAILS_APP_DATABASE_PASSWORD'] %>
+  url:  <%= ENV.fetch("JAWSDB_URL") %>
