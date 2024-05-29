@@ -50,6 +50,5 @@ test:
 production:
   adapter: mysql2
   encoding: utf8mb4
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: example_cirro_rails_app_production
   url: <%= ENV.fetch("JAWSDB_URL") %>
