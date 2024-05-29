@@ -1,7 +1,7 @@
 require 'cirro_io/client'
 require 'cirro_io_v2/client'
 
-private_key = Rails.env.production? ? './storage/cirro.pem' : './key.pem'
+private_key = Rails.env.production? ? ENV.fetch("cirro_private_key") : './key.pem'
 
 CirroIO::Client.configure do |c|
   c.app_id Settings.cirro.app_id
